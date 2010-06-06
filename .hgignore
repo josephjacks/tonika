@@ -10,7 +10,6 @@ syntax:glob
 [568a].out
 *~
 *.orig
-core
 _obj
 _test
 src/pkg/Make.deps
