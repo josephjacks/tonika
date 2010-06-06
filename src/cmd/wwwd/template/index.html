@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <title>Tonika</title>
+    <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link href="/favicon.ico" type="image/x-icon" rel="icon" /> 
+    <link rel="stylesheet" type="text/css" href="/tonika.css">
+    <script type="text/javascript" src="/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/urlEncode.js"></script>
+    <script type="text/javascript" src="/tonika.js"></script>
+  </head>
+
+  <body>
+
+    <div id="page">
+        <div id="logo">
+          <img src="/Logo.png" alt="Tonika Logo" />
+          <ul>
+            <li class="wiggle"><a href="http://blog.5ttt.org"><img src="wp-icon.png" /> Blog Tonika</a></li>
+            <li class="wiggle"><a href="http://twitter.com/5ttt"><img src="tw2-icon.png" /> Follow on Twitter</a></li>
+            <li class="wiggle"><a href="http://groups.google.com/group/5ttt"><img src="gg-icon.png" /> Tonika Google group</a></li>
+          </ul>
+
+          <p>Spread the word:</p>
+          <div id="spread">
+            <a class="wgg" href="http://www.google.com/buzz/post?url=" onclick="window.location = this.href +
+              encodeURIComponent(window.location); return false"> <img
+              src="/buzz-small.png" alt="submit to Buzz"></a> 
+             
+            <a class="wgg" href="http://www.facebook.com/share.php?u=" onclick="window.location = this.href +
+              encodeURIComponent(window.location); return false"> <img
+              src="/fb-small.png" alt="submit to facebook"></a> 
+             
+            <a class="wgg" href="http://twitter.com/home?status=" onclick="window.location = this.href +
+              encodeURIComponent('#io2010 ' +window.location); return false"> <img
+              src="/tw-small.png" alt="submit to twitter"></a> 
+             
+            <a class="wgg" href="http://www.reddit.com/submit?url=" onclick="window.location = this.href +
+              encodeURIComponent(window.location); return false"> <img
+              src="/reddit-small.gif" alt="submit to reddit"></a> 
+             
+            <a class="wgg" href="http://digg.com/submit?url=" onclick="window.location = this.href +
+              encodeURIComponent(window.location); return false"> <img
+              src="/digg-small.gif" alt="submit to digg"></a> 
+             
+            <a class="wgg" href="http://delicious.com/save?v=5&amp;noui&amp;jump=close&amp;url="
+              onclick="window.location = this.href + encodeURIComponent(window.location); return
+              false"> <img src="/d-small.png" alt="submit to delicious"></a> 
+          </div>
+        </div>
+    
+	<div id="content">
+		
+		<div class="entry moto">
+                  <p>Own your social ties.</p>
+                </div>
+		<div class="entry">
+                  <p><h1>What is <span class="toncolor">Tonika</span>?</h1> Tonika is a routing and security 
+                  infrastructure for independent distributed social networks.
+                  Users of Tonika are equal citizens in a private and 
+                  secure Internet of their own.
+                                Every user obtains a permanent anonymous URL, under which
+                                they can publish content or services. 
+                                Low-level physical message exchange occurs only between pairs of 
+                                related users in an encrypted and authenticated fashion. 
+                                Novel routing algorithms
+                                allow for establishing bilaterally anonymous and encrypted 
+                                communication between any pair of users (specified by their URLs), 
+                                in a manner that scales.</p>
+		</div>
+		
+		<div class="entry">
+			<h1>Open source.</h1>
+                        <p>Tonika is open-source under the GNU Affero General Public License. 
+                        You can view and download the latest sources
+                        at <a href="http://code.google.com/p/tonika/">Tonika on Google Code</a>.
+                        If you'd like to contribute, please <a href="mailto:petar@5ttt.org">email us</a>
+                        to find out what are the current projects, or start a discussion on 
+                        <a href="http://groups.google.com/group/5ttt">Tonika's Google Group</a>.
+                        </p>
+		</div>
+		
+		<div class="entry">
+			<p><h1>Contact!</h1>
+                        News, releases and such will be announced
+                        on <a href="http://twitter.com/5ttt">Twitter</a>. 
+                        If you want to contact the Tonika authors, don't hesitate to
+                        send us an <a href="mailto:petar@5ttt.org">email</a>.
+		</div>
+		
+	</div>
+
+      </div>
+
+        <div id="footer">
+          <div id="copy">
+            2009-2010 &copy; <a href="http://pdos.csail.mit.edu/~petar/">Petar Maymounkov</a>
+          </div>
+        </div>
+
+  </body>
+</html>
