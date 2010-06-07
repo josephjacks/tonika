@@ -52,16 +52,6 @@ DIRS=\
 	vault\
 	fe\
 	core\
-	#routing/bfs\
-	#routing/pagerank\
-	#routing/spectral\
-	#routing/sim\
-
-#NOTEST=\
-#	xgb\
-
-#NOBENCH=\
-#	container/vector\
 
 TEST=\
 	$(filter-out $(NOTEST),$(DIRS))
