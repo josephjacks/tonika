@@ -13,6 +13,8 @@ package http
 
 import (
 	"bufio"
+	"crypto/rand"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"log"
@@ -21,11 +23,13 @@ import (
 	"path"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Errors introduced by the HTTP server.
 var (
 	ErrWriteAfterFlush = os.NewError("Conn.Write called after Flush")
+	ErrBodyNotAllowed  = os.NewError("http: response status code does not allow body")
 	ErrHijacked        = os.NewError("Conn has been hijacked")
 )
 
@@ -55,6 +59,7 @@ type Conn struct {
 	closeAfterReply bool              // close connection after this reply
 	chunking        bool              // using chunked transfer encoding for reply body
 	wroteHeader     bool              // reply header has been written
+	wroteContinue   bool              // 100 Continue response was written
 	header          map[string]string // reply header parameters
 	written         int64             // number of bytes written in body
 	status          int               // status code passed to WriteHeader
@@ -74,6 +79,28 @@ func newConn(rwc net.Conn, handler Handler) (c *Conn, err os.Error) {
 	return c, nil
 }
 
+// wrapper around io.ReaderCloser which on first read, sends an
+// HTTP/1.1 100 Continue header
+type expectContinueReader struct {
+	conn       *Conn
+	readCloser io.ReadCloser
+}
+
+func (ecr *expectContinueReader) Read(p []byte) (n int, err os.Error) {
+	if !ecr.conn.wroteContinue && !ecr.conn.hijacked {
+		ecr.conn.wroteContinue = true
+		if ecr.conn.Req.ProtoAtLeast(1, 1) {
+			io.WriteString(ecr.conn.buf, "HTTP/1.1 100 Continue\r\n\r\n")
+			ecr.conn.buf.Flush()
+		}
+	}
+	return ecr.readCloser.Read(p)
+}
+
+func (ecr *expectContinueReader) Close() os.Error {
+	return ecr.readCloser.Close()
+}
+
 // Read next request from connection.
 func (c *Conn) readRequest() (req *Request, err os.Error) {
 	if c.hijacked {
@@ -86,7 +113,14 @@ func (c *Conn) readRequest() (req *Request, err os.Error) {
 	// Reset per-request connection state.
 	c.header = make(map[string]string)
 	c.wroteHeader = false
+	c.wroteContinue = false
 	c.Req = req
+
+	// Expect 100 Continue support
+	if req.expectsContinue() {
+		// Wrap the Body reader with one that replies on the connection
+		req.Body = &expectContinueReader{readCloser: req.Body, conn: c}
+	}
 
 	// Default output is HTML encoded in UTF-8.
 	c.SetHeader("Content-Type", "text/html; charset=utf-8")
@@ -138,6 +172,11 @@ func (c *Conn) WriteHeader(code int) {
 	}
 	c.wroteHeader = true
 	c.status = code
+	if code == StatusNotModified {
+		// Must not have body.
+		c.header["Content-Type"] = "", false
+		c.header["Transfer-Encoding"] = "", false
+	}
 	c.written = 0
 	if !c.Req.ProtoAtLeast(1, 0) {
 		return
@@ -171,6 +210,11 @@ func (c *Conn) Write(data []byte) (n int, err os.Error) {
 	}
 	if len(data) == 0 {
 		return 0, nil
+	}
+
+	if c.status == StatusNotModified {
+		// Must not have body.
+		return 0, ErrBodyNotAllowed
 	}
 
 	c.written += int64(len(data)) // ignoring errors, for errorKludge
@@ -571,20 +615,21 @@ func Serve(l net.Listener, handler Handler) os.Error {
 //	package main
 //
 //	import (
-//		"http";
-//		"io";
+//		"http"
+//		"io"
+//		"log"
 //	)
 //
 //	// hello world, the web server
 //	func HelloServer(c *http.Conn, req *http.Request) {
-//		io.WriteString(c, "hello, world!\n");
+//		io.WriteString(c, "hello, world!\n")
 //	}
 //
 //	func main() {
-//		http.Handle("/hello", http.HandlerFunc(HelloServer));
-//		err := http.ListenAndServe(":12345", nil);
+//		http.HandleFunc("/hello", HelloServer)
+//		err := http.ListenAndServe(":12345", nil)
 //		if err != nil {
-//			panic("ListenAndServe: ", err.String())
+//			log.Exit("ListenAndServe: ", err.String())
 //		}
 //	}
 func ListenAndServe(addr string, handler Handler) os.Error {
@@ -595,4 +640,53 @@ func ListenAndServe(addr string, handler Handler) os.Error {
 	e = Serve(l, handler)
 	l.Close()
 	return e
+}
+
+// ListenAndServeTLS acts identically to ListenAndServe, except that it
+// expects HTTPS connections. Additionally, files containing a certificate and
+// matching private key for the server must be provided.
+//
+// A trivial example server is:
+//
+//	import (
+//		"http"
+//		"log"
+//	)
+//
+//	func handler(conn *http.Conn, req *http.Request) {
+//		conn.SetHeader("Content-Type", "text/plain")
+//		conn.Write([]byte("This is an example server.\n"))
+//	}
+//
+//	func main() {
+//		http.HandleFunc("/", handler)
+//		log.Stdoutf("About to listen on 10443. Go to https://127.0.0.1:10443/")
+//		err := http.ListenAndServe(":10443", "cert.pem", "key.pem", nil)
+//		if err != nil {
+//			log.Exit(err)
+//		}
+//	}
+//
+// One can use generate_cert.go in crypto/tls to generate cert.pem and key.pem.
+func ListenAndServeTLS(addr string, certFile string, keyFile string, handler Handler) os.Error {
+	config := &tls.Config{
+		Rand:       rand.Reader,
+		Time:       time.Seconds,
+		NextProtos: []string{"http/1.1"},
+	}
+
+	var err os.Error
+	config.Certificates = make([]tls.Certificate, 1)
+	config.Certificates[0], err = tls.LoadX509KeyPair(certFile, keyFile)
+	if err != nil {
+		return err
+	}
+
+	conn, err := net.Listen("tcp", addr)
+	if err != nil {
+		return err
+	}
+
+	tlsListener := tls.NewListener(conn, config)
+	return Serve(tlsListener, handler)
 }

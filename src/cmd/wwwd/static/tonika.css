@@ -1,9 +1,27 @@
+@font-face {
+	font-family: HFont;
+	src: url(/MegalopolisExtra.otf) format("opentype");
+}
+
+/*
+@font-face {
+	font-family: TextFont;
+	//src: url(/Calluna-Regular.otf) format("opentype");
+	src: url(/FertigoPro.otf) format("opentype");
+}
+*/
+
+@font-face {
+	font-family: MotoFont;
+	src: url(/MegalopolisExtra.otf) format("opentype");
+}
+
 /* CSS for the Tonika web site */
 
 body, p, ul, ol, div, li, table, span, tr, td, form, * {
-	font-family: Georgia, "Times New Roman", serif;
-	font-size: 17px;
-	background-color: #ffffff;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	background-color: #fff;
 	color: #101010;
 }
 
@@ -12,7 +30,6 @@ body {
 	margin: 0;
 	vertical-align: top;
 }
-
 
 input[type="text"], input[type="password"], textarea
 {
@@ -46,7 +63,7 @@ input[type="submit"]:hover {
 }
 
 div#page {
-	width: 1000px;
+	width: 1200px;
 	padding: 0px;
 	margin: 0;
 }
@@ -77,7 +94,7 @@ div#spread {
 	position: relative;
 }
 .toncolor {
-	font-size: 1.3em;
+	font: inherit;
 	color: #ff8800;
 }
 
@@ -85,22 +102,42 @@ div#spread {
 	display: inline-block;
 	margin: auto auto;
 	margin-top: 40px;
-	margin-left: 30px;
-	margin-right: 30px;
+	margin-left: 10px;
+	margin-right: 10px;
 	width: 600px;
 	//border: 1px dotted #aaa;
 }
 
+#livebar {
+	vertical-align: top;
+	display: inline-block;
+	margin: auto auto;
+	margin-top: 40px;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 230px;
+	padding: 10px;
+	background: #fffff8;
+	border-radius: 4px; 
+	-moz-border-radius: 4px; 
+	-webkit-border-radius: 4px;
+}
+
+#livebar #twitter-feed a {
+	text-decoration: none;
+	border: none;
+}
+
 #footer {
+	color: #808080;
 	margin: 0;
 	width: 100%;
 	height: 100px;
-	background-image: url(footer.png);
 	padding-top: 30px;
 }
 
 #footer #copy {
-	color: white;
+	color: #808080;
 	text-align: center;
 	background: none;
 }
@@ -110,16 +147,24 @@ div#spread {
 }
 
 .entry, .entry p, .entry li  {
-	font-family: "Georgia", Helvetica, Arial, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	vertical-align: text-bottom;
 	font-size: 17px;
 	line-height: 1.4em;
-	letter-spacing: -0.04em;
-	color: #606060;
+	letter-spacing: -0.0em;
+	color: #303030;
+}
+
+h2 {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 20px;
+	font-weight: normal;
+	color: #ee0055;
+	background: none;
 }
 
 .entry h1 {
-	font-family: Georgia, "Times New Roman", serif;
+	font-family: HFont, Georgia, "Times New Roman", serif;
 	font-size: 35px;
 	letter-spacing: -1px;
 	font-weight: normal;
@@ -133,10 +178,13 @@ div#spread {
 }
 
 .moto, .moto p {
-	color: #cccccc;
-	font-size: 30px;
+	color: #333;
+	font-family: MotoFont, Georgia, sans-serif;
+	font-size: 43px;
 	font-style: italic;
 	text-align: center;
+	color: #a0a0a0;
+	letter-spacing: 0.0em;
 }
 
 em {
@@ -145,19 +193,19 @@ em {
 }
 
 a, a:link {
-	font-style: italic;
-	color: #bbaa88;
+	font: inherit;
+	//font-style: italic;
+	letter-spacing: inherit;
+	color: #44bb11;
 	text-decoration: none;
 }
 
 a:visited {
-	font-style: italic;
-	color: #bbaa88;
+	color: #44bb11;
 }
 
 a:hover {
-	font-style: italic;
-	border-bottom: 1px dotted #bbaa88;
+	border-bottom: 1px dotted #44bb11;
 }
 
 ul {
@@ -171,14 +219,14 @@ li {
 #footer a, #footer a:link {
 	font-style: normal;
 	background: none;
-	color: #ffffff;
+	color: inherit;
 	text-decoration: none;
 }
 
 #footer a:visited {
 	font-style: normal;
 	background: none;
-	color: #ffffff;
+	color: inherit;
 }
 
 #footer a:hover {

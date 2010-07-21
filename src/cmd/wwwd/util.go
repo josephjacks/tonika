@@ -31,7 +31,13 @@ func loadTmpl(tdir, name string) (tmpl *template.Template, err os.Error) {
 	if err != nil {
 		return
 	}
-	return template.Parse(string(data), nil)
+	t := template.New(nil)
+	t.SetDelims("[[", "]]")
+	err = t.Parse(string(data))
+	if err != nil {
+		return nil, err
+	}
+	return t, nil
 }
 
 func newRespServiceUnavailable() *http.Response {

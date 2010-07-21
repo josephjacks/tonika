@@ -36,7 +36,7 @@ import (
 
 func parseURL(req *http.Request) (tid sys.Id, path, query string, err os.Error) {
 	
-	hostparts := strings.Split(req.Host, ".", 0)
+	hostparts := strings.Split(req.Host, ".", -1)
 	hostparts = misc.ReverseHost(hostparts)
 
 	if len(hostparts) != 3 || hostparts[0] != sys.Host0 || hostparts[1] != sys.Host1 {

@@ -48,7 +48,6 @@ func BytesToBody(p []byte) (int, io.ReadCloser) {
 	return len(p), NopCloser{bytes.NewBuffer(p)}
 }
 
-
 // One of the copies, say from b to r2, could be avoided by using a more
 // elaborate trick where the other copy is made during Request/Response.Write.
 // This would complicate things too much, given that these functions are for

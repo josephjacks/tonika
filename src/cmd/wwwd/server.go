@@ -144,7 +144,7 @@ func (s *Server) serve(q *http.Query) {
 		q.Write(newRespBadRequest())
 		return
 	}
-	hostparts := misc.ReverseHost(strings.Split(hostport[0], ".", 0))
+	hostparts := misc.ReverseHost(strings.Split(hostport[0], ".", -1))
 
 	// http://5ttt.org, http://www.5ttt.org
 	if len(hostparts) < 3 || hostparts[2] == "www" {

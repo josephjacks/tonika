@@ -18,7 +18,7 @@ type AllowHosts struct {
 // this function may take too long.
 func MakeAllowHosts(s string) *AllowHosts {
 	ah := &AllowHosts{ make(map[string]int) }
-	parts := strings.Split(s, ",", 0)
+	parts := strings.Split(s, ",", -1)
 	for _,p := range parts {
 		ip := net.ParseIP(p)
 		var ips []string

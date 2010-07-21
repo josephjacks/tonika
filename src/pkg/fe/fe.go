@@ -298,7 +298,7 @@ func (fe *FrontEnd) serveAdmin(q *http.Query) {
 func (fe *FrontEnd) replyAPI(req *http.Request) *http.Response { 
 	p := req.URL.Path
 	p = p[len("/api/"):]
-	path := strings.Split(p, "/", 0)
+	path := strings.Split(p, "/", -1)
 	if len(path) != 1 {
 		return newRespNotFound()
 	}

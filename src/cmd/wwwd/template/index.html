@@ -54,20 +54,39 @@
                   <p>Own your social ties.</p>
                 </div>
 		<div class="entry">
-                  <p><h1>What is <span class="toncolor">Tonika</span>?</h1> Tonika is a routing and security 
-                  infrastructure for independent distributed social networks.
-                  Users of Tonika are equal citizens in a private and 
+                  <h1>What is <span class="toncolor">Tonika</span>?</h1> 
+                  <p>Tonika allows a priavte social network of unlimited size to form a secure, 
+                  independent and full-featured WWW, where every participant can publish and browse
+                  on equal basis.</p>
+                  <p>Users of Tonika are equal citizens in a private and 
                   secure Internet of their own.
-                                Every user obtains a permanent anonymous URL, under which
+                    Every user obtains a permanent anonymous URL, under which
                                 they can publish content or services. 
                                 Low-level physical message exchange occurs only between pairs of 
                                 related users in an encrypted and authenticated fashion. 
                                 Novel routing algorithms
-                                allow for establishing bilaterally anonymous and encrypted 
-                                communication between any pair of users (specified by their URLs), 
-                                in a manner that scales.</p>
+                                establish bilaterally anonymous and encrypted 
+                                communication between any pair of users.</p>
 		</div>
 		
+		<div class="entry">
+                  <h1>Why <span class="toncolor">Tonika</span>?</h1> 
+                  <p>Tonika was designed to address various Internet issues raised
+                  in the <a href="http://www.internet-manifesto.org/">Internet Manifesto</a> 
+                  as well as the
+                  problem of unfair bandwidth allocation, known as 
+                  <a href="http://en.wikipedia.org/wiki/Network_neutrality">Network Neutrality</a>.
+                  And last but not least, Tonika is designed to enable a fully decentralized 
+                  world-wide social network, where participants have full control over their 
+                  privacy and anonymity.
+                  </p>
+                  <p>The routing algorithms that allow Tonika to scale are a product of 
+                  many years of mathematical research. Some of the algorithms behind
+                  Tonika are now published. See e.g. 
+                  <a href="http://dx.doi.org/10.1016/j.tcs.2010.06.013">Electric Routing and 
+                    Concurrent Flow Cutting</a>.
+		</div>
+
 		<div class="entry">
 			<h1>Open source.</h1>
                         <p>Tonika is open-source under the GNU Affero General Public License. 
@@ -88,6 +107,42 @@
 		</div>
 		
 	</div>
+
+        <div id="livebar">
+          <div id="twitter-feed">
+          <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+		<script>
+		new TWTR.Widget({
+		  version: 2,
+		  type: 'profile',
+		  rpp: 4,
+		  interval: 6000,
+		  width: 215,
+		  height: 300,
+		  theme: {
+		    shell: {
+		      background: '#ffffff',
+		      color: '#000000'
+		    },
+		    tweets: {
+		      background: '#ffffff',
+		      color: '#3d3d3d',
+		      links: '#44bb11'
+		    }
+		  },
+		  features: {
+		    scrollbar: false,
+		    loop: false,
+		    live: true,
+		    hashtags: true,
+		    timestamp: true,
+		    avatars: false,
+		    behavior: 'all'
+		  }
+		}).render().setUser('5ttt').start();
+		</script>
+              </div>
+        </div>
 
       </div>
 

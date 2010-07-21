@@ -70,16 +70,16 @@ type Request struct {
 	// A header mapping request lines to their values.
 	// If the header says
 	//
-	//	Accept-Language: en-us
 	//	accept-encoding: gzip, deflate
+	//	Accept-Language: en-us
 	//	Connection: keep-alive
 	//
 	// then
 	//
 	//	Header = map[string]string{
-	//		"Accept-Encoding": "en-us",
-	//		"Accept-Language": "gzip, deflate",
-	//		"Connection": "keep-alive"
+	//		"Accept-Encoding": "gzip, deflate",
+	//		"Accept-Language": "en-us",
+	//		"Connection": "keep-alive",
 	//	}
 	//
 	// HTTP defines that header names are case-insensitive.
@@ -345,7 +345,7 @@ func atoi(s string, i int) (n, i1 int, ok bool) {
 
 // Parse HTTP version: "HTTP/1.2" -> (1, 2, true).
 func parseHTTPVersion(vers string) (int, int, bool) {
-	if vers[0:5] != "HTTP/" {
+	if len(vers) < 5 || vers[0:5] != "HTTP/" {
 		return 0, 0, false
 	}
 	major, i, ok := atoi(vers, 5)
@@ -568,7 +568,7 @@ func ReadRequest(b *bufio.Reader) (req *Request, err os.Error) {
 
 func ParseQuery(query string) (m map[string][]string, err os.Error) {
 	m = make(map[string][]string)
-	for _, kv := range strings.Split(query, "&", 0) {
+	for _, kv := range strings.Split(query, "&", -1) {
 		kvPair := strings.Split(kv, "=", 2)
 
 		var key, value string
@@ -634,4 +634,9 @@ func (r *Request) FormValue(key string) string {
 		return vs[0]
 	}
 	return ""
+}
+
+func (r *Request) expectsContinue() bool {
+	expectation, ok := r.Header["Expect"]
+	return ok && strings.ToLower(expectation) == "100-continue"
 }

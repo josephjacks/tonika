@@ -32,7 +32,7 @@ const (
 )
 
 func getRequestType(req *http.Request) (int, sys.Id) {
-	hostparts := strings.Split(req.Host, ".", 0)
+	hostparts := strings.Split(req.Host, ".", -1)
 	hostparts = misc.ReverseHost(hostparts)
 
 	if len(hostparts) < 2 {
