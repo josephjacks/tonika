@@ -23,6 +23,7 @@ DIRS=\
      	tonika\
 	mond\
 	monkeygen\
+	needled\
 	tangrad\
 	wwwd\
 

@@ -43,6 +43,8 @@ DIRS=\
 	util/uptime\
 	util/varint\
 	util/filewriter\
+	needle/proto\
+	needle\
 	crypto\
 	sys\
 	monitor\

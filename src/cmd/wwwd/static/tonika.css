@@ -113,11 +113,11 @@ div#spread {
 	display: inline-block;
 	margin: auto auto;
 	margin-top: 40px;
-	margin-left: 10px;
+	margin-left: 20px;
 	margin-right: 10px;
-	width: 230px;
-	padding: 10px;
-	background: #fffff8;
+	//width: 230px;
+	padding: 6px;
+	background: #e0e0e0;
 	border-radius: 4px; 
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
@@ -149,10 +149,10 @@ div#spread {
 .entry, .entry p, .entry li  {
 	font-family: Helvetica, Arial, sans-serif;
 	vertical-align: text-bottom;
-	font-size: 17px;
+	font-size: 16px;
 	line-height: 1.4em;
 	letter-spacing: -0.0em;
-	color: #303030;
+	color: #555555;
 }
 
 h2 {
@@ -243,9 +243,9 @@ li {
 }
 
 #logo p {
-	font-style: italic;
+	font-family: 'Arial Rounded MT Bold', sans-serif;
 	text-align: center;
-	font-size: 15px;
+	font-size: 14px;
 	color: #aaaaaa;
 }
 
